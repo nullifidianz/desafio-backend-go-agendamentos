@@ -3,19 +3,21 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/nullifidianz/desafio-backend-go-agendamentos/controllers"
+	"github.com/nullifidianz/desafio-backend-go-agendamentos/middleware"
 )
 
 func Setup() *gin.Engine {
-	routes := gin.Default()
+	r := gin.Default()
 
-	routes.POST("/medicos", controllers.CadastrarMedico)
-	routes.GET("/medicos", controllers.ListarMedicos)
+	r.POST("/login", controllers.Login)
+	r.POST("/registrar", controllers.RegistrarUsuario)
 
-	routes.POST("/pacientes", controllers.CadastrarPaciente)
-	routes.GET("/pacientes", controllers.ListarPaciente)
+	autorizadas := r.Group("/")
+	autorizadas.Use(middleware.AuthMiddleware())
 
-	routes.POST("/consultas", controllers.AgendarConsulta)
-	routes.GET("/consultas", controllers.ListarConsultas)
+	autorizadas.GET("/consultas", middleware.Autorizar("medico", "admin"), controllers.ListarConsultas)
 
-	return routes
+	autorizadas.POST("/medicos", middleware.Autorizar("admin"), controllers.CadastrarMedico)
+
+	return r
 }

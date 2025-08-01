@@ -10,9 +10,8 @@ import (
 
 func main() {
 	if err := godotenv.Load(); err != nil {
-		log.Println("erro no arquivo .env")
+		log.Fatal("erro no arquivo .env")
 	}
-
 	database.Conectar()
 	r := routes.Setup()
 	r.Run(":8080")

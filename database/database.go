@@ -29,5 +29,5 @@ func Conectar() {
 		log.Fatal("Erro ao conectar no PostgreSQL: ", err)
 	}
 
-	DB.AutoMigrate(&models.Medico{}, &models.Paciente{}, &models.Consulta{})
+	DB.AutoMigrate(&models.Medico{}, &models.Paciente{}, &models.Consulta{}, &models.Usuario{})
 }
