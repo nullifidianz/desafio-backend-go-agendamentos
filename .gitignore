@@ -31,3 +31,4 @@ tmp
 # Editor/IDE
 # .idea/
 # .vscode/
+.vscode/settings.json
